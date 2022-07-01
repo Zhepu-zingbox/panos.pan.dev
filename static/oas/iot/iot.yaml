@@ -1,13 +1,6 @@
 info:
   description: |
     Please refer [IoT Public API Authentication](iot-public-api-headers) to know how to get API Key<br/>
-    List of public APIs from IoT security:
-    1. Link to [Get Device Detail](iot-public-api#operation/device-detail)
-    2. Link to [Get Device Inventory](iot-public-api#operation/device-inventory)
-    3. Link to [Get Security Alerts](iot-public-api#operation/alert-list)
-    4. Link to [Resolve a Security Alert](iot-public-api#operation/alert-resolve)
-    4. Link to [Get Vulnerabilities](iot-public-api#operation/vulnerability-list)
-    4. Link to [Resolve Vulnerability Instances](iot-public-api#operation/vulnerability-resolve)
   title: IoT Public API Overview
   version: v4.0
   contact: {}
@@ -20,18 +13,33 @@ tags:
 paths:
   /pub/v4.0/device:
     get:
-      description: 'Get a list of device details for the device with the specified MAC address. <br/> <b>Rate limiting<b/>: 60 times per minute'
+      description: 'Get a list of device details for the device with the specified MAC address or, for a static IP device, the device with the specified static IP address. <br/> <b>Rate limiting<b/>: 60 times per minute'
       operationId: device-detail
       security:
       - X-Key-Id:  []
         X-Access-Key: []
-      summary: Device Detail
+      summary: Device Details
       tags:
         - IoT Public API
       parameters:
         $ref: 'api/public/deviceDetail.yaml#/parameters'
       responses:
         $ref: 'api/public/deviceDetail.yaml#/responses'
+
+  /pub/v4.0/device/ip:
+    get:
+      description: 'Get a list of device details for the device with the specified IP address. <br/> <b>Rate limiting<b/>: 60 times per minute'
+      operationId: device-detail-ip
+      security:
+      - X-Key-Id:  []
+        X-Access-Key: []
+      summary: Device Detail per IP Address
+      tags:
+        - IoT Public API
+      parameters:
+        $ref: 'api/public/deviceDetailPerIP.yaml#/parameters'
+      responses:
+        $ref: 'api/public/deviceDetailPerIP.yaml#/responses'
 
   /pub/v4.0/device/list:
     get:
@@ -48,6 +56,36 @@ paths:
       responses:
         $ref: 'api/public/deviceList.yaml#/responses'
 
+  /pub/v4.0/profile/mapping:
+    get:
+      description: 'Get a list of mappings of each device profile to a category and industry vertical. This list is for all device profiles that can appear in IoT Security, not just those in your environment. <br/> <b>Rate limiting<b/>: 180 times per minute'
+      operationId: profile-mapping
+      security:
+      - X-Key-Id:  []
+        X-Access-Key: []
+      summary: Profile Mapping
+      tags:
+        - IoT Public API
+      parameters:
+        $ref: 'api/public/profileMapping.yaml#/parameters'
+      responses:
+        $ref: 'api/public/profileMapping.yaml#/responses'
+
+  /pub/v4.0/tag/list:
+    get:
+      description: 'Get a list of user-defined tags assigned to IoT devices.'
+      operationId: tags-list
+      security:
+      - X-Key-Id:  []
+        X-Access-Key: []
+      summary: Tags List
+      tags:
+        - IoT Public API
+      parameters:
+        $ref: 'api/public/tagList.yaml#/parameters'
+      responses:
+        $ref: 'api/public/tagList.yaml#/responses'
+
   /pub/v4.0/alert/list:
     get:
       description: 'Get a list of security alerts. <br/> <b>Rate limiting<b/>: 60 times per minute'
@@ -55,7 +93,7 @@ paths:
       security:
       - X-Key-Id:  []
         X-Access-Key: []
-      summary: Security Alerts
+      summary: Get Security Alerts
       tags:
         - IoT Public API
       parameters:
@@ -75,12 +113,14 @@ paths:
         - IoT Public API
       parameters:
         $ref: 'api/public/alertResolve.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/alertResolve.yaml#/requestBody'
       responses:
         $ref: 'api/public/alertResolve.yaml#/responses'
 
   /pub/v4.0/vulnerability/list:
     get:
-      description: 'Get a list of security alerts. <br/> <b>Rate limiting<b/>: 60 times per minute'
+      description: 'Get a list of vulnerabilities. <br/> <b>Rate limiting<b/>: 60 times per minute'
       operationId: vulnerability-list
       security:
       - X-Key-Id:  []
@@ -105,68 +145,142 @@ paths:
         - IoT Public API
       parameters:
         $ref: 'api/public/vulnerabilityResolve.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/vulnerabilityResolve.yaml#/requestBody'
       responses:
         $ref: 'api/public/vulnerabilityResolve.yaml#/responses'
 
   /pub/v4.0/device/bulkUpdate:
     put:
-      description: 'General bulk update devices. Currently, it is being used for DNAC and Cisco Prime integrations.'
+      description: 'Bulk update devices for DNAC and CISCO Prime integrations.'
       operationId: general-bulk-update
       security:
       - X-Key-Id:  []
         X-Access-Key: []
-      summary: Bulk Update Devices - General
+      summary: Bulk Device Updates - DNAC and CISCO Prime
       tags:
         - IoT Public API
       parameters:
         $ref: 'api/public/bulkUpdate.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/bulkUpdate.yaml#/requestBody'
       responses:
         $ref: 'api/public/bulkUpdate.yaml#/responses'
 
   /pub/v4.0/device/bulkUpdate?updateSource=cisco_wlc:
     put:
-      description: 'Bulk update devices for Cisco WLC'
+      description: 'Bulk device updates for CISCO WLC'
       operationId: cisco-wlc-bulk-update
       security:
       - X-Key-Id:  []
         X-Access-Key: []
-      summary: Bulk Update Devices - Cisco WLC
+      summary: Bulk Device Updates - Cisco WLC
       tags:
         - IoT Public API
       parameters:
         $ref: 'api/public/bulkUpdateCiscoWLC.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/bulkUpdateCiscoWLC.yaml#/requestBody'
       responses:
         $ref: 'api/public/bulkUpdateCiscoWLC.yaml#/responses'
 
   /pub/v4.0/device/bulkUpdate?updateSource=aruba_wlc:
     put:
-      description: 'Bulk update devices for Aruba WLC'
+      description: 'Bulk device updates for Aruba WLC'
       operationId: aruba-wlc-bulk-update
       security:
       - X-Key-Id:  []
         X-Access-Key: []
-      summary: Bulk Update Devices - Aruba WLC
+      summary: Bulk Device Updates - Aruba WLC
       tags:
         - IoT Public API
       parameters:
         $ref: 'api/public/bulkUpdateArubaWLC.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/bulkUpdateArubaWLC.yaml#/requestBody'
       responses:
         $ref: 'api/public/bulkUpdateArubaWLC.yaml#/responses'
 
   /pub/v4.0/device/bulkUpdate?updateSource=snmp:
     put:
-      description: 'Bulk update devices for SNMP'
+      description: 'Bulk device updates for SNMP'
       operationId: snmp-bulk-update
       security:
       - X-Key-Id:  []
         X-Access-Key: []
-      summary: Bulk Update Devices - SNMP
+      summary: Bulk Device Updates - SNMP
       tags:
         - IoT Public API
       parameters:
         $ref: 'api/public/bulkUpdateSNMP.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/bulkUpdateSNMP.yaml#/requestBody'
       responses:
         $ref: 'api/public/bulkUpdateSNMP.yaml#/responses'
+
+  /pub/v4.0/device/bulkUpdate?updateSource=cellular:
+    put:
+      description: 'Bulk device updates for cellular devices'
+      operationId: cellular-bulk-update
+      security:
+        - X-Key-Id:  []
+          X-Access-Key: []
+      summary: Bulk Device Updates - Cellular Devices
+      tags:
+        - IoT Public API
+      parameters:
+        $ref: 'api/public/bulkUpdateCellular.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/bulkUpdateCellular.yaml#/requestBody'
+      responses:
+        $ref: 'api/public/bulkUpdateCellular.yaml#/responses'
+  /pub/v4.0/device/bulkUpdate?updateSource=sccm:
+    put:
+      description: 'Bulk device updates for sccm devices'
+      operationId: sccm-bulk-update
+      security:
+        - X-Key-Id:  []
+          X-Access-Key: []
+      summary: Bulk Device Updates - SCCM Devices
+      tags:
+        - IoT Public API
+      parameters:
+        $ref: 'api/public/bulkUpdateSccm.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/bulkUpdateSccm.yaml#/requestBody'
+      responses:
+        $ref: 'api/public/bulkUpdateSccm.yaml#/responses'
+  /pub/v4.0/device/bulkUpdate?updateSource=crowdstrike_falcon:
+    put:
+      description: 'Bulk device updates for Crowdstrike Falcon devices'
+      operationId: crowdstrike-bulk-update
+      security:
+        - X-Key-Id:  []
+          X-Access-Key: []
+      summary: Bulk Device Updates - Crowdstrike Falcon Devices
+      tags:
+        - IoT Public API
+      parameters:
+        $ref: 'api/public/bulkUpdateCrowdstrike.yaml#/parameters'
+      requestBody:
+        $ref: 'api/public/bulkUpdateCrowdstrike.yaml#/requestBody'
+      responses:
+        $ref: 'api/public/bulkUpdateCrowdstrike.yaml#/responses'
+
+  /pub/v4.0/policy/recommendation:
+    get:
+      description: 'Fetch active policy recommendation rules'
+      operationId: policy-recommendation
+      security:
+      - X-Key-Id:  []
+        X-Access-Key: []
+      summary: Security Policy Rule Recommendations
+      tags:
+        - IoT Public API
+      parameters:
+        $ref: 'api/public/policyRecommendation.yaml#/parameters'
+      responses:
+        $ref: 'api/public/policyRecommendation.yaml#/responses'
 
 components:
   securitySchemes:

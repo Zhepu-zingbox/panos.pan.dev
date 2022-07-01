@@ -258,18 +258,18 @@ examples:
         {
             "macAddress": "34:f3:9a:69:6f:e5",
             "connectedDuration": "51233",
-            "wlanId": "sample wlan",
-            "apModel": "sample ap model",
-            "location": "sample location",
-            "country": "sample country",
-            "SSID": "sample SSID",
-            "apName": "sample ap name",
-            "apIPAddress": "sample ap IP address",
-            "rssi": "sample rssi",
-            "snr": "sample snr",
-            "authMethod": "sample auth method",
-            "encryptionCipher": "sample encryption cipher",
-            "radio": "sample radio"
+            "wlanId": "1",
+            "apModel": "303",
+            "location": "PANW",
+            "country": "USA",
+            "SSID": "DOLORES",
+            "apName": "d0:d3:e0:c3:57:ec",
+            "apIPAddress": "10.6.72.240",
+            "rssi": "38",
+            "snr": "57",
+            "authMethod": "WPA2 PSK",
+            "encryptionCipher": "CCMP-128 (AES)",
+            "radio": "802.11a"
         }
       ]
     }
@@ -296,16 +296,148 @@ examples:
     value: {
       devicelist: [
         {
-          location: 'sample location',
-          switch_ip: 'sample switch ip',
-          switch_name: 'sample switch name',
-          ap_ip: 'sample ap_ip',
-          ap_name: 'sample ap_name',
-          WireWireless: 'sample wirewireless',
-          protocol_name: 'sample protocol',
-          vlan: 'sample vlan',
-          ip: 'sample ip',
-          source: "sample config source"
+          deviceid: '00:00:2a:01:00:24',
+          config_source: 'dnac',
+          ip: '10.14.1.123',
+          location: 'HQ/Floor 17',
+          ap_ip: '10.6.72.226',
+          ap_name: 'DOLORES',
+          SSID: 'vmwareguest',
+          switch_ip: '10.10.20.82',
+          switch_name: 'leaf2.test.com',
+          switch_if_name: 'GigabitEthernet1/0/4',
+          vlan: 823,
+          vlan_name: 'Cameras',
+          protocol_name: 'dns,ssl,ping',
+          WireWireless: 'WIRED'
         }
+      ]
+    }
+
+  PolicyRecommendationResponse:
+    summary: An example of policy recommendation API response
+    value: {
+      ver: 'v4.0',
+      api: '/pub/policy/recommendation',
+      total: 10,
+      policies: [
+        {
+          'id': '12sdgjkh234',
+          'removed': false,
+          'geo': 'intranet',
+          'action': 'allow',
+          'lastActivityTime': '2021-09-21T21:53:42.754Z',
+          'sourceProfiles': [
+              'APC(Schneider Electric) Smart PowerSupply'
+          ],
+          'sourceIpList': [],
+          'sourceZones': [],
+          'apps': [
+              'dhcp',
+              'unknown-udp',
+              'unknown-tcp'
+          ],
+          'destinationZones': [],
+          'destinationProfiles': ['Windows'],
+          'destinationFqdnList': [],
+          'destinationIpList': ['162.12.232.81', '162.12.232.80'],
+          'destinationUrlCategories': [],
+          'services': [
+              'udp/67',
+              'tcp/67',
+              'service-http',
+              'service-https'
+          ],
+          'tags': [
+              'IoTSecurityRecommended',
+              'test-tag'
+          ],
+          'securityProfiles': [
+            {
+                'type': 'virus',
+                'name': 'default'
+            },
+            {
+                'type': 'vulnerability',
+                'name': 'default'
+            },
+            {
+                'type': 'spyware',
+                'name': 'default'
+            },
+            {
+                'type': 'url-filtering',
+                'name': 'default'
+            },
+            {
+                'type': 'file-blocking',
+                'name': 'basic file blocking'
+            },
+            {
+                'type': 'wildfire-analysis',
+                'name': 'default'
+            }
+            ]
+          },
+          {
+            'id': '12sdgjkh235',
+            'removed': false,
+            'geo': 'internet',
+            'action': 'allow',
+            'lastActivityTime': '2021-08-27T01:14:18.818Z',
+            'sourceProfiles': [
+                'Polycom IP Phone'
+            ],
+            'sourceIpList': [],
+            'sourceZones': [],
+            'apps': [
+                'rtp-base',
+                'unknown-udp',
+                'unknown-tcp'
+            ],
+            'destinationZones': [],
+            'destinationProfiles': [],
+            'destinationFqdnList': [
+                '162.12.232.81'
+            ],
+            'destinationIpList': [],
+            'destinationUrlCategories': [],
+            'services': [
+                'udp/47390',
+                'udp/32576',
+                'udp/35204',
+                'service-http',
+                'service-https'
+            ],
+            'tags': [
+                'IoTSecurityRecommended'
+            ],
+            'securityProfiles': [
+              {
+                  'type': 'virus',
+                  'name': 'default'
+              },
+              {
+                  'type': 'vulnerability',
+                  'name': 'default'
+              },
+              {
+                  'type': 'spyware',
+                  'name': 'default'
+              },
+              {
+                  'type': 'url-filtering',
+                  'name': 'default'
+              },
+              {
+                  'type': 'file-blocking',
+                  'name': 'basic file blocking'
+              },
+              {
+                  'type': 'wildfire-analysis',
+                  'name': 'default'
+              }
+            ]
+          }
       ]
     }
